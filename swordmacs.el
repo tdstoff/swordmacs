@@ -72,13 +72,25 @@ This simply calls `diatheke -b MODULE -k KEY' and returns the raw output."
       (goto-char beg)
       (insert string))))
 ;;
+(defun swordmacs--get-block-key ()
+  "Get the key string of a `swordmacs' block."
+  (let* ((beg (progn
+                (end-of-line)
+                (search-backward "#+begin_bible")
+                (search-forward " ")
+                (point)))
+         (end (progn
+                (end-of-line)
+                (point))))
+    (buffer-substring beg end)))
+;;
 ;;;; Commands
 ;;
 (defun swordmacs-refresh-block ()
     "Update the verse contents of a Bible block."
   (interactive)
   (if (swordmacs--in-block-p)
-      (let ((key (read-string "Enter key: ")))
+      (let ((key (swordmacs--get-block-key)))
         (swordmacs--replace-text-in-block (swordmacs--diatheke-get-text swordmacs-default-module key)))
     (error "Not inside a bible block")))
 ;;
