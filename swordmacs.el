@@ -36,7 +36,14 @@
   :type '(choice (const :tag "None" nil)
                  (string :tag "Module abbreviation (e.g. \"ESV\")")))
 ;;
+(defconst swordmacs-books
+  '("Genesis" "Exodus" "Leviticus" "Numbers" "Deuteronomy" "Joshua" "Judges" "Ruth" "I Samuel" "II Samuel" "I Kings" "II Kings" "I Chronicles" "II Chronicles" "Ezra" "Nehemiah" "Esther" "Job" "Psalms" "Proverbs" "Ecclesiastes" "Song of Solomon" "Isaiah" "Jeremiah" "Lamentations" "Ezekiel" "Daniel" "Hosea"  "Joel" "Amos" "Obadiah" "Jonah" "Micah" "Nahum" "Habakkuk" "Zephaniah" "Haggai" "Zechariah" "Malachi"
+    "Matthew" "Mark" "Luke" "John" "Acts" "Romans" "I Corinthians" "II Corinthians" "Galatians" "Ephesians" "Philippians" "Colossians" "I Thessalonians" "II Thessalonians" "I Timothy" "II Timothy" "Titus" "Philemon" "Hebrews" "James" "I Peter" "II Peter" "I John" "II John" "III John" "Jude"
+    "Revelation of John")
+  "List of strings representing books of the Bible.")
+;;
 ;;;; Functions
+;;
 (defun swordmacs--in-block-p ()
   "Check if the point is inside a bible block."
   (if (org-in-block-p '("bible")) t nil))
