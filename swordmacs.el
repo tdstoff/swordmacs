@@ -94,6 +94,11 @@ This simply calls `diatheke -b MODULE -k KEY' and returns the raw output."
         (swordmacs--replace-text-in-block (swordmacs--diatheke-get-text swordmacs-default-module key)))
     (error "Not inside a bible block")))
 ;;
+;;;; Hooks
+;;
+(add-hook 'org-ctrl-c-ctrl-c-final-hook
+         (lambda () (if (swordmacs--in-block-p) (swordmacs-refresh-block))))
+;;
 (provide 'swordmacs)
 ;;
 ;;; swordmacs.el ends here
