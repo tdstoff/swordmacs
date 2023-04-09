@@ -79,7 +79,7 @@ This simply calls `diatheke -b MODULE -k KEY' and returns the raw output."
   (interactive)
   (if (swordmacs--in-block-p)
       (let ((key (read-string "Enter key: ")))
-        (swordmacs--replace-text-in-block (swordmacs--diatheke-get-text "ESV" key)))
+        (swordmacs--replace-text-in-block (swordmacs--diatheke-get-text swordmacs-default-module key)))
     (error "Not inside a bible block")))
 ;;
 (provide 'swordmacs)
