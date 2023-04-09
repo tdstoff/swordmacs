@@ -37,12 +37,50 @@
                  (string :tag "Module abbreviation (e.g. \"ESV\")")))
 ;;
 ;;;; Functions
-(defun swordmacs-in-block-p ()
+(defun swordmacs--in-block-p ()
   "Check if the point is inside a bible block."
-  (interactive)
   (if (org-in-block-p '("bible")) t nil))
 ;;
+(defun swordmacs--diatheke-get-text (module key)
+  "Return raw text from diatheke MODULE for KEY.
+This simply calls `diatheke -b MODULE -k KEY' and returns the raw output."
+  (with-temp-buffer
+    (call-process "diatheke" nil '(t nil) nil
+                  "-f" "plain"
+                  "-b" module "-k" key)
+    (buffer-substring (point-min) (save-excursion
+                                    (goto-char (point-max))
+                                    (forward-line -2)
+                                    (end-of-line)
+                                    (point)))))
+;;
+(defun swordmacs--replace-text-in-block (string)
+  "Replace the text between `#+begin_bible` and `#+end_bible` with STRING."
+  (let* ((beg (progn
+                (end-of-line)
+                (search-backward "#+begin_bible")
+                (forward-line 1)
+                (beginning-of-line)
+                (point)))
+         (end (progn
+                (search-forward "#+end_bible")
+                (forward-line -1)
+                (end-of-line)
+                (point))))
+    (save-excursion
+      (delete-region beg end)
+      (goto-char beg)
+      (insert string))))
+;;
 ;;;; Commands
+;;
+(defun swordmacs-refresh-block ()
+    "Update the verse contents of a Bible block."
+  (interactive)
+  (if (swordmacs--in-block-p)
+      (let ((key (read-string "Enter key: ")))
+        (swordmacs--replace-text-in-block (swordmacs--diatheke-get-text "ESV" key)))
+    (error "Not inside a bible block")))
 ;;
 (provide 'swordmacs)
 ;;
