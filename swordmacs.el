@@ -112,7 +112,15 @@ This simply calls `diatheke -b MODULE -k KEY' and returns the raw output."
   (and (= (count ?\: string) 2) (= (count ?\- string) 1)))
 ;;
 (defun swordmacs--key-type (string)
-  "Return object `type' of key STRING."
+  "Return object `type' of key STRING.
+
+Examples:
+
+\"John 3\"        -> 'chapter
+\"John 3-4\"      -> 'chapter-range
+\"John 3:16\"     -> 'verse
+\"John 3:16-17\"  -> 'verse-range
+\"John 3:36-4:1\" -> 'chapter-verse-range"
   (if (swordmacs--is-single-chapter-p string) 'chapter
     (if (swordmacs--is-chapter-range-p string) 'chapter-range
       (if (swordmacs--is-single-verse-p string) 'verse
@@ -122,7 +130,15 @@ This simply calls `diatheke -b MODULE -k KEY' and returns the raw output."
 ;;
 (defun swordmacs--parse-key (key)
   "Parse a verse key string KEY and return a key list.
-Type, chapter name, chapter number(s), and verse number(s)."
+Type, chapter name, chapter number(s), and verse number(s).
+
+Examples:
+
+\"John 3\"        -> (:type 'chapter             :book \"John\" :chapter-start 3)
+\"John 3-4\"      -> (:type 'chapter-range       :book \"John\" :chapter-start 3 :chapter-end 4)
+\"John 3:16\"     -> (:type 'verse               :book \"John\" :chapter-start 3 :verse-start 16)
+\"John 3:16-17\"  -> (:type 'verse-range         :book \"John\" :chapter-start 3 :verse-start 16 :verse-end 17)
+\"John 3:36-4:1\" -> (:type 'chapter-verse-range :book \"John\" :chapter-start 3 :verse-start 36 :chapter-end 4 :verse-end 1)"
   (let* ((components (split-string key "[ :\-]"))
          (type (swordmacs--key-type key))
          (book (car components))
