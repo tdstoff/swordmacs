@@ -207,6 +207,46 @@ Examples:
         (swordmacs--replace-text-in-block (swordmacs--diatheke-get-text swordmacs-default-module key)))
     (error "Not inside a bible block")))
 ;;
+(defun swordmacs-append (&optional count)
+  "Add COUNT number of verses to the end of the Bible block.
+Default is one verse."
+  (interactive "p")
+  (if (swordmacs--in-block-p)
+      (let* ((key (swordmacs--get-block-key))
+             (count (or count 1))
+             (appended-key (swordmacs--change-key key 'verse-end count)))
+        (swordmacs--overwrite-block-key appended-key)
+        (swordmacs-refresh-block))
+    (error "Not inside a bible block")))
+;;
+(defun swordmacs-unappend (&optional count)
+  "Delete COUNT number of verses from the end of the Bible block.
+Default is one verse."
+  (interactive "p")
+  (let* ((count (or count 1))
+         (neg-count (- count)))
+    (swordmacs-append neg-count)))
+;;
+(defun swordmacs-prepend (&optional count)
+  "Add COUNT number of verses to the beginning of the Bible block.
+Default is one verse."
+  (interactive "p")
+  (if (swordmacs--in-block-p)
+      (let* ((key (swordmacs--get-block-key))
+             (count (or count 1))
+             (neg-count (- count))
+             (appended-key (swordmacs--change-key key 'verse-start neg-count)))
+        (swordmacs--overwrite-block-key appended-key)
+        (swordmacs-refresh-block))
+    (error "Not inside a bible block")))
+;;
+(defun swordmacs-unprepend (&optional count)
+  "Delete COUNT number of verses to the beginning of the Bible block.
+Default is one verse."
+  (interactive "p")
+  (let* ((count (or count 1))
+         (neg-count (- count)))
+    (swordmacs-prepend neg-count)))
 ;;;; Hooks
 ;;
 (add-hook 'org-ctrl-c-ctrl-c-final-hook
