@@ -148,6 +148,27 @@ Examples:
          (verse-end (if (eq type 'verse-range) (string-to-number (car (cdddr components))) (if (eq type 'chapter-verse-range) (string-to-number (car (cddddr components))) 0))))
     (list :type type :book book :chapter-start chapter-start :chapter-end chapter-end :verse-start verse-start :verse-end verse-end)))
 ;;
+(defun swordmacs--reconstruct-key (key-list)
+  "Reconstruct a verse key string from a parsed key list KEY-LIST."
+  (let ((type (plist-get key-list :type))
+        (book (plist-get key-list :book))
+        (chapter-start (plist-get key-list :chapter-start))
+        (chapter-end (plist-get key-list :chapter-end))
+        (verse-start (plist-get key-list :verse-start))
+        (verse-end (plist-get key-list :verse-end)))
+    (cond
+     ((eq type 'chapter)
+      (format "%s %d" book chapter-start))
+     ((eq type 'chapter-range)
+      (format "%s %d-%d" book chapter-start chapter-end))
+     ((eq type 'verse)
+      (format "%s %d:%d" book chapter-start verse-start))
+     ((eq type 'verse-range)
+      (format "%s %d:%d-%d" book chapter-start verse-start verse-end))
+     ((eq type 'chapter-verse-range)
+      (format "%s %d:%d-%d:%d" book chapter-start verse-start chapter-end verse-end))
+     (t ""))))
+;;
 ;;;; Commands
 ;;
 (defun swordmacs-refresh-block ()
