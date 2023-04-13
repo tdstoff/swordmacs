@@ -182,6 +182,21 @@ Examples:
       (format "%s %d:%d-%d:%d" book chapter-start verse-start chapter-end verse-end))
      (t ""))))
 ;;
+(defun swordmacs--change-key (key ref-type amount)
+  "Change KEY's component of REF-TYPE by AMOUNT."
+  (let* ((parsed-key (swordmacs--parse-key key))
+         (type (plist-get parsed-key :type))
+         (book (plist-get parsed-key :book))
+         (chapter-start (plist-get parsed-key :chapter-start))
+         (chapter-end (plist-get parsed-key :chapter-end))
+         (verse-start (plist-get parsed-key :verse-start))
+         (verse-end (plist-get parsed-key :verse-end)))
+    (setq chapter-start (if (eq ref-type 'chapter-start) (+ chapter-start amount) chapter-start))
+    (setq chapter-end (if (eq ref-type 'chapter-end) (+ chapter-end amount) chapter-end))
+    (setq verse-start (if (eq ref-type 'verse-start) (+ verse-start amount) verse-start))
+    (setq verse-end (if (eq ref-type 'verse-end) (+ verse-end amount) verse-end))
+    (swordmacs--reconstruct-key (list :type type :book book :chapter-start chapter-start :chapter-end chapter-end :verse-start verse-start :verse-end verse-end))))
+;;
 ;;;; Commands
 ;;
 (defun swordmacs-refresh-block ()
