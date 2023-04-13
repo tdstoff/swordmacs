@@ -5,7 +5,7 @@
 ;; Version: 0.0.1
 ;; Keywords: tools
 ;; Homepage: https://github.com/tdstoff/swordmacs
-;; Package-Requires: ((emacs "27.1"))
+;; Package-Requires: ((emacs "28.1"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -23,6 +23,7 @@
 ;;
 ;;;; Requirements
 (require 'org)
+(require 'transient)
 ;;
 ;;;; Variables
 ;;
@@ -247,6 +248,24 @@ Default is one verse."
   (let* ((count (or count 1))
          (neg-count (- count)))
     (swordmacs-prepend neg-count)))
+;;
+(defun swordmacs-dispatch ()
+  "Perform `swordmacs' actions again and again."
+  (interactive)
+  (if (swordmacs--in-block-p)
+      (swordmacs-transient)
+    (error "Not inside a bible block")))
+(transient-define-prefix swordmacs-transient ()
+  "Swordmacs Popup"
+  :transient-suffix 'transient--do-stay
+  [["Move"
+    ("n" "Append verse(s)"    (lambda (arg) (interactive "p") (swordmacs-append arg)))
+    ("N" "Unappend verse(s)"  (lambda (arg) (interactive "p") (swordmacs-unappend arg)))
+    ("p" "Prepend verse(s)"   (lambda (arg) (interactive "p") (swordmacs-prepend arg)))
+    ("P" "Unprepend verse(s)" (lambda (arg) (interactive "p") (swordmacs-unprepend arg)))]
+   ["Other"
+    ("q" "quit" (lambda () (interactive) (transient-quit-all)))]])
+;;
 ;;;; Hooks
 ;;
 (add-hook 'org-ctrl-c-ctrl-c-final-hook
