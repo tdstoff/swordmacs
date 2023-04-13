@@ -91,6 +91,19 @@ This simply calls `diatheke -b MODULE -k KEY' and returns the raw output."
                 (point))))
     (buffer-substring beg end)))
 ;;
+(defun swordmacs--overwrite-block-key (key)
+  "Overwrite the key string of a `swordmacs' block with KEY."
+  (let* ((beg (progn
+                (end-of-line)
+                (search-backward "#+begin_bible")
+                (search-forward " ")
+                (point)))
+         (end (progn
+                (end-of-line)
+                (point))))
+    (delete-region beg end)
+    (insert key)))
+;;
 (defun swordmacs--is-single-chapter-p (string)
   "Return t if key STRING is a single chapter, nil otherwise."
   (and (= (count ?\: string) 0) (= (count ?\- string) 0)))
