@@ -249,6 +249,22 @@ Default is one verse."
          (neg-count (- count)))
     (swordmacs-prepend neg-count)))
 ;;
+(defun swordmacs-forward (&optional count)
+  "Move COUNT number of verses forward.
+Default is one verse."
+  (interactive "p")
+  (let* ((count (or count 1)))
+    (swordmacs-append count)
+    (swordmacs-unprepend count)))
+;;
+(defun swordmacs-back (&optional count)
+  "Move COUNT number of verses backward.
+Default is one verse."
+  (interactive "p")
+  (let* ((count (or count 1)))
+    (swordmacs-prepend count)
+    (swordmacs-unappend count)))
+;;
 (defun swordmacs-dispatch ()
   "Perform `swordmacs' actions again and again."
   (interactive)
@@ -258,11 +274,13 @@ Default is one verse."
 (transient-define-prefix swordmacs-transient ()
   "Swordmacs Popup"
   :transient-suffix 'transient--do-stay
-  [["Move"
+  [["Navigation"
     ("n" "Append verse(s)"    (lambda (arg) (interactive "p") (swordmacs-append arg)))
     ("N" "Unappend verse(s)"  (lambda (arg) (interactive "p") (swordmacs-unappend arg)))
     ("p" "Prepend verse(s)"   (lambda (arg) (interactive "p") (swordmacs-prepend arg)))
-    ("P" "Unprepend verse(s)" (lambda (arg) (interactive "p") (swordmacs-unprepend arg)))]
+    ("P" "Unprepend verse(s)" (lambda (arg) (interactive "p") (swordmacs-unprepend arg)))
+    ("f" "Forward"            (lambda (arg) (interactive "p") (swordmacs-continue arg)))
+    ("b" "Back"               (lambda (arg) (interactive "p") (swordmacs-continue arg)))]
    ["Other"
     ("q" "quit" (lambda () (interactive) (transient-quit-all)))]])
 ;;
