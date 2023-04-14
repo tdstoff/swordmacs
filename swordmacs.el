@@ -274,13 +274,14 @@ Default is one verse."
 (transient-define-prefix swordmacs-transient ()
   "Swordmacs Popup"
   :transient-suffix 'transient--do-stay
-  [["Navigation"
-    ("n" "Append verse(s)"    (lambda (arg) (interactive "p") (swordmacs-append arg)))
-    ("N" "Unappend verse(s)"  (lambda (arg) (interactive "p") (swordmacs-unappend arg)))
-    ("p" "Prepend verse(s)"   (lambda (arg) (interactive "p") (swordmacs-prepend arg)))
-    ("P" "Unprepend verse(s)" (lambda (arg) (interactive "p") (swordmacs-unprepend arg)))
-    ("f" "Forward"            (lambda (arg) (interactive "p") (swordmacs-continue arg)))
-    ("b" "Back"               (lambda (arg) (interactive "p") (swordmacs-continue arg)))]
+  [:description "Swordmacs"
+   ["Navigation"
+    ("n" "Append"    (lambda (arg) (interactive "p") (swordmacs-append arg)))
+    ("N" "Unappend"  (lambda (arg) (interactive "p") (swordmacs-unappend arg)))
+    ("p" "Prepend"   (lambda (arg) (interactive "p") (swordmacs-prepend arg)))
+    ("P" "Unprepend" (lambda (arg) (interactive "p") (swordmacs-unprepend arg)))
+    ("f" "Forward"   (lambda (arg) (interactive "p") (swordmacs-forward arg)))
+    ("b" "Back"      (lambda (arg) (interactive "p") (swordmacs-back arg)))]
    ["Other"
     ("q" "quit" (lambda () (interactive) (transient-quit-all)))]])
 ;;
