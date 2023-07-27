@@ -1,31 +1,38 @@
 #+title: swordmacs
 #+author: Tyler D. Stoffel
 #+email: tdstoff7@gmail.com
-#
-* Swordmacs
-This package is an attempt to integrate a featureful, user-friendly reader, reference generator, and exporter for Biblical and religious texts in Emacs using the [[https://crosswire.org/wiki/Frontends:Diatheke][=diatheke=]] command line tool powered by the [[https://crosswire.org/sword/index.jsp][SWORD Project]].
-#
+
+* Description
+This package is an attempt to integrate a featureful, user-friendly reader, reference generator, and exporter for Biblical and religious texts in Emacs using the [[https://crosswire.org/wiki/Frontends:Diatheke][diatheke]] command line tool powered by the [[https://crosswire.org/sword/index.jsp][SWORD Project]].
+
 ** Existing packages
 This project is based on the following packages.
 The aim is to replicate most of their functionality with an improved interface (largely with the help of [[https://github.com/magit/transient][Transient]]) and some other features detailed below.
-- [[https://github.com/alphapapa/sword-to-org][=sword-to-org=]] is a nice, small package which will insert the text as an outline or plain text.
-- [[https://github.com/dtk01/dtk][=dtk=]] is a more featureful reader in Emacs, but lacks some user-friendliness and features like export to other formats.
-#
+- [[https://github.com/alphapapa/sword-to-org][sword-to-org]] is a nice, small package which will insert the text as an outline or plain text.
+- [[https://github.com/dtk01/dtk][dtk]] is a more featureful reader in Emacs, but lacks some user-friendliness and features like export to other formats.
+
 ** Usage
-Install [[https://crosswire.org/wiki/Frontends:Diatheke][=diatheke=]]. On Debian/Ubuntu it's in the =diatheke= package and on homebrew for MacOS it is the =sword= package.
+Install =diatheke=. On Debian/Ubuntu it's in the =diatheke= package and on homebrew for MacOS it is the =sword= package.
 Some nice instructions for installing the package and modules are posted [[https://gist.github.com/Nilpo/b887da309c05845493a5][here]].
 
 Currently the only functionality in the package is a Transient popup which inserts and manipulates requested verses inside of a special org block.
 For example, executing =org-ctrl-c-ctrl-c= (~C-c C-c~) with the pointer placed inside the following block
-#+begin_bible Gen 1:1
 
-#+end_bible
+~#+begin_bible Gen 1:1~
+
+
+~#+end_bible~
+
 will yield
-#+begin_bible Gen 1:1
-Genesis 1:1: In the beginning God created the heaven and the earth.
-#+end_bible
+
+~#+begin_bible Gen 1:1~
+
+~Genesis 1:1: In the beginning God created the heaven and the earth.~
+
+~#+end_bible~
+
 Then some manipulation of the printed text is available via ~swordmacs-dispatch~.
-#
+
 * Goals
 ** Insert Biblical text into existing buffers
 - [x] Quote blocks
