@@ -282,18 +282,17 @@ Default is one verse."
       (swordmacs-transient)
     (error "Not inside a bible block")))
 (transient-define-prefix swordmacs-transient ()
-  "Swordmacs Popup"
-  :transient-suffix 'transient--do-stay
+  "Main menu for Swordmacs."
   [:description "Swordmacs"
    ["Navigation"
-    ("n" "Append"    (lambda (arg) (interactive "p") (swordmacs-append arg)))
-    ("N" "Unappend"  (lambda (arg) (interactive "p") (swordmacs-unappend arg)))
-    ("p" "Prepend"   (lambda (arg) (interactive "p") (swordmacs-prepend arg)))
-    ("P" "Unprepend" (lambda (arg) (interactive "p") (swordmacs-unprepend arg)))
-    ("f" "Forward"   (lambda (arg) (interactive "p") (swordmacs-forward arg)))
-    ("b" "Back"      (lambda (arg) (interactive "p") (swordmacs-back arg)))]
+    ("n" "Append"    (lambda (arg) (interactive "p") (swordmacs-append arg)    (swordmacs-transient)))
+    ("N" "Unappend"  (lambda (arg) (interactive "p") (swordmacs-unappend arg)  (swordmacs-transient)))
+    ("p" "Prepend"   (lambda (arg) (interactive "p") (swordmacs-prepend arg)   (swordmacs-transient)))
+    ("P" "Unprepend" (lambda (arg) (interactive "p") (swordmacs-unprepend arg) (swordmacs-transient)))
+    ("f" "Forward"   (lambda (arg) (interactive "p") (swordmacs-forward arg)   (swordmacs-transient)))
+    ("b" "Back"      (lambda (arg) (interactive "p") (swordmacs-back arg)      (swordmacs-transient)))]
    ["Other"
-    ("q" "quit" (lambda () (interactive) (transient-quit-all)))]])
+    ("q" "quit" (lambda () (interactive) (transient-quit-one)))]])
 ;;
 ;;;; Hooks
 ;;
